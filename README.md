@@ -1,3 +1,24 @@
+TLNR
+=====
+
+1. Run `./tpch-build.sh to compile`
+2. Run `./tpch-setup-text.sh 1000`
+
+    This will generate tpch data on HDFS and than create external table to map it.
+    The external table create stmt is at: ddl-tpch/bin_flat/alltables.sql 
+
+3. Run `./tpch-setup-parquet.sh 1000` or `./tpch-setup-orc.sh 1000`
+
+    This will create parquet or orc table and insert data from text external table.
+
+    In ddl-tpch/bin_flat/customer.sql:
+
+    - Add `sort by rand()` can control the reduce num(to create small files)
+    - Add `TBLPROPERTIES ("parquet.compression"="SNAPPY")` can control the compression of parquet.
+
+
+    `settings/load-flat-emr.sql` is an exmpale to create small file
+
 hive-testbench
 ==============
 
